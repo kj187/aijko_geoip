@@ -58,7 +58,7 @@ class AbstractService {
 	 * @throws \InvalidArgumentException|\UnexpectedValueException
 	 */
 	public function __construct($clientIp = '') {
-		$extensionConfiguration = \Aijko\AijkoDefault\Utility\EmConfiguration::getConfiguration('aijko_geoip', '\Aijko\AijkoGeoip\Domain\Model\Dto\EmConfiguration');
+		$extensionConfiguration = \Aijko\AijkoGeoip\Utility\EmConfiguration::getConfiguration('aijko_geoip', '\Aijko\AijkoGeoip\Domain\Model\Dto\EmConfiguration');
 		if (!$extensionConfiguration->getDatabaseFilePath()) {
 			throw new \UnexpectedValueException('You must set a path to the database file in the extension managaer', 1409315403);
 		}

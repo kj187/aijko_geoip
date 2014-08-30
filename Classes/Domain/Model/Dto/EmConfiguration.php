@@ -30,7 +30,7 @@ namespace Aijko\AijkoGeoip\Domain\Model\Dto;
  *
  * @package Aijko\AijkoGeoip\Domain\Model\Dto
  */
-class EmConfiguration extends \Aijko\AijkoDefault\Domain\Model\Dto\AbstractEmConfiguration {
+class EmConfiguration {
 
 	/**
 	 * Fill the properties properly
@@ -38,7 +38,11 @@ class EmConfiguration extends \Aijko\AijkoDefault\Domain\Model\Dto\AbstractEmCon
 	 * @param array $configuration em configuration
 	 */
 	public function __construct(array $configuration) {
-		parent::__construct($configuration, __CLASS__);
+		foreach ($configuration as $key => $value) {
+			if (property_exists(__CLASS__, $key)) {
+				$this->$key = $value;
+			}
+		}
 	}
 
 	/**
