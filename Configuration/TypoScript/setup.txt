@@ -1,0 +1,45 @@
+################################################
+#   GeoIP Service AJAX request
+#
+#   Returned JSON object with information about
+#   the county, continent and currency where the
+#   current user is from
+#
+
+	geoIpServiceClientJson = PAGE
+	geoIpServiceClientJson {
+		typeNum = 99874563214
+
+		config {
+			no_cache = 1
+			disableAllHeaderCode = 1
+			removeDefaultJS = 1
+			disablePrefixComment = 1
+			admPanel = 0
+			additionalHeaders = Content-type:text/plain
+		}
+
+		10 = USER
+		10 {
+			userFunc = Aijko\AijkoGeoip\Controller\AjaxController->jsonAction
+		}
+	}
+
+
+
+################################################
+#   Plugin Settings
+#
+#
+
+	plugin.tx_aijkogeoip {
+		clientMetaUrl = TEXT
+		clientMetaUrl {
+			wrap = <script>var clientMetaDataUrl = "|?type=99874563214"</script>
+			stdWrap.typolink {
+				parameter.data = TSFE:id
+				forceAbsoluteUrl = 1
+				returnLast = url
+			}
+		}
+	}

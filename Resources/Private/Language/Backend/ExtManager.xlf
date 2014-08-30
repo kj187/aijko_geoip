@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="de" datatype="plaintext" original="messages" date="2014-08-12T11:55:13Z" product-name="aijko_geoip">
+		<header/>
+		<body>
+			<trans-unit id="databaseFilePath">
+				<source>GeoIP2 database: The absolute path to the GeoIP2 database file (*.mmdb)</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
