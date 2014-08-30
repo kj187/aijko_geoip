@@ -22,6 +22,7 @@
 		10 = USER
 		10 {
 			userFunc = Aijko\AijkoGeoip\Controller\AjaxController->jsonAction
+			clientIp =
 		}
 	}
 

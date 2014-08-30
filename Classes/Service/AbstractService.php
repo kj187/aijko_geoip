@@ -30,7 +30,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use GeoIp2\Database\Reader;
 
 /**
- * GeoIp Service based on Maxminds GeoLite2 City Database
+ * GeoIp Service based on Maxminds databases
  *
  * @package Aijko\AijkoGeoip\Service
  */

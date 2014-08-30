@@ -33,17 +33,15 @@ namespace Aijko\AijkoGeoip\Controller;
 class AjaxController {
 
 	/**
-	 * Deliver a json object with all information about the users country, continent and currency
+	 * Deliver a json object which includes all information about the users city, country, continent and currency
 	 *
+	 * @param string $content
+	 * @param array $configuration
 	 * @return string
 	 */
-	public function jsonAction() {
-		$client = new \Aijko\AijkoGeoip\Service\Client('212.76.202.228'); // AIJKO feste IP
-		#$client = new \Aijko\AijkoGeoip\Service\Client('213.144.132.109'); // Fake Schweiz
-		#$client = new \Aijko\AijkoGeoip\Service\Client('66.85.131.18'); // Fake USA
-		#$client = new \Aijko\AijkoGeoip\Service\Client('219.157.200.18'); // Fake China
-		#$client = new \Aijko\AijkoGeoip\Service\Client();
-		#$client = new \Aijko\AijkoGeoip\Service\Client('xxxxxxx');
+	public function jsonAction($content = '', array $configuration) {
+		$clientIp = (isset($configuration['clientIp']) ? $configuration['clientIp'] : '');
+		$client = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Aijko\\AijkoGeoip\\Service\\Client', $clientIp);
 		return $client->getAsJson();
 	}
 
