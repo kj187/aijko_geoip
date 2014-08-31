@@ -25,6 +25,8 @@ namespace Aijko\AijkoGeoip\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * GeoIP2 Country
  *
@@ -68,18 +70,36 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	public function __construct() {
 		parent::__construct();
 		$this->countryRepository = $this->objectManager->get('SJBR\\StaticInfoTables\\Domain\\Repository\\CountryRepository');
+		$this->setDefaultCurrency($this->configuration['currency']['default']);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function setCurrency() {
-		$currency = $this->getDefaultCurrency();
+	public function loadCurrency() {
+		$this->setCurrency($this->getDefaultCurrency());
 		$staticCountry = $this->countryRepository->findOneByIsoCodeA2($this->getIsoCode());
-		if (NULL !== $staticCountry) {
-			$currency = $staticCountry->getCurrencyIsoCodeA3();
+		if (NULL === $staticCountry) {
+			return;
 		}
 
+		$currency = $staticCountry->getCurrencyIsoCodeA3();
+
+		// Check whitelist
+		if (isset($this->configuration['currency']['whitelist']) && '' !== $this->configuration['currency']['whitelist']) {
+			$whitelist = GeneralUtility::trimExplode(',', $this->configuration['currency']['whitelist']);
+			if (!in_array($currency, $whitelist)) {
+				return;
+			}
+		}
+
+		$this->setCurrency($currency);
+	}
+
+	/**
+	 * @param string $currency
+	 */
+	public function setCurrency($currency) {
 		$this->currency = $currency;
 	}
 
@@ -109,6 +129,7 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	 */
 	public function setIsoCode($isoCode) {
 		$this->isoCode = $isoCode;
+		$this->loadCurrency();
 	}
 
 	/**

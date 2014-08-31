@@ -1,4 +1,45 @@
 ################################################
+#   Plugin Settings
+#
+#
+
+	plugin.tx_aijkogeoip {
+		clientMetaUrl = TEXT
+		clientMetaUrl {
+			wrap = <script>var clientMetaDataUrl = "|?type=99874563214"</script>
+			stdWrap.typolink {
+				parameter.data = TSFE:id
+				forceAbsoluteUrl = 1
+				returnLast = url
+			}
+		}
+
+		settings {
+			currency {
+				default = USD
+				whitelist =
+			}
+		}
+	}
+
+
+
+################################################
+#   Extbase Settings
+#
+#
+
+	config.tx_extbase {
+		objects {
+			Aijko\AijkoGeoip\Domain\Repository\ClientRepositoryInterface {
+				className = Aijko\AijkoGeoip\Domain\Repository\ClientRepository
+			}
+		}
+	}
+
+
+
+################################################
 #   GeoIP Service AJAX request
 #
 #   Returned JSON object with information about
@@ -23,39 +64,7 @@
 		10 {
 			userFunc = Aijko\AijkoGeoip\Controller\AjaxController->jsonAction
 			clientIp =
-		}
-	}
 
-
-
-################################################
-#   Plugin Settings
-#
-#
-
-	plugin.tx_aijkogeoip {
-		clientMetaUrl = TEXT
-		clientMetaUrl {
-			wrap = <script>var clientMetaDataUrl = "|?type=99874563214"</script>
-			stdWrap.typolink {
-				parameter.data = TSFE:id
-				forceAbsoluteUrl = 1
-				returnLast = url
-			}
-		}
-	}
-
-
-
-################################################
-#   Extbase Settings
-#
-#
-
-	config.tx_extbase {
-		objects {
-			Aijko\AijkoGeoip\Domain\Repository\ClientRepositoryInterface {
-				className = Aijko\AijkoGeoip\Domain\Repository\ClientRepository
-			}
+			settings =< plugin.tx_aijkogeoip.settings
 		}
 	}

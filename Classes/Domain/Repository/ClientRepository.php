@@ -47,6 +47,11 @@ class ClientRepository implements \Aijko\AijkoGeoip\Domain\Repository\ClientRepo
 	protected $reader = NULL;
 
 	/**
+	 * @var array
+	 */
+	protected $configuration = array();
+
+	/**
 	 * @throws \InvalidArgumentException|\UnexpectedValueException
 	 */
 	public function __construct() {
@@ -63,6 +68,12 @@ class ClientRepository implements \Aijko\AijkoGeoip\Domain\Repository\ClientRepo
 		} catch(\UnexpectedValueException $exception) {
 			throw new \UnexpectedValueException($exception->getMessage(), 1409315903);
 		}
+
+		// Get configuration
+		$configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+		$typoscriptConfiguration = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+		$configuration = $typoscriptConfiguration['plugin.']['tx_aijkogeoip.']['settings.'];
+		$this->configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::removeDotsFromTS($configuration);
 	}
 
 	/**
@@ -90,12 +101,10 @@ class ClientRepository implements \Aijko\AijkoGeoip\Domain\Repository\ClientRepo
 		$continent->setName($geoIp->continent->name);
 
 		// Country
-		$country = $this->objectManager->get('Aijko\\AijkoGeoip\\Domain\\Model\\Country');
+		$country = $this->objectManager->get('Aijko\\AijkoGeoip\\Domain\\Model\\Country', $this->configuration);
 		$country->setName($geoIp->country->name);
 		$country->setTranslations($geoIp->country->names);
 		$country->setIsoCode($geoIp->country->isoCode);
-		$country->setDefaultCurrency('USD'); // TODO typoscript
-		$country->setCurrency();
 
 		// City
 		$city = $this->objectManager->get('Aijko\\AijkoGeoip\\Domain\\Model\\City');

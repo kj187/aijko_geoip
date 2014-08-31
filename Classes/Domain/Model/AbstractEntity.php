@@ -40,10 +40,24 @@ abstract class AbstractEntity {
 	protected $objectManager;
 
 	/**
+	 * @var array
+	 */
+	protected $configuration = array();
+
+	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(array $configuration = array()) {
 		$this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		if (!count($configuration)) {
+			// Get configuration
+			$configurationManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+			$typoscriptConfiguration = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+			$configuration = $typoscriptConfiguration['plugin.']['tx_aijkogeoip.']['settings.'];
+			$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::removeDotsFromTS($configuration);
+		}
+
+		$this->configuration = $configuration;
 	}
 
 }

@@ -79,7 +79,30 @@ $continentCode = $client->getContinent()->getCode();
 $continentName = $client->getContinent()->getName();
 ```
 
-The currency is part of the EXT:static_info_tables. The default currency is USD.
+The currency is part of the EXT:static_info_tables and will be grab from there. The default currency is USD. You can switch the default currency with typoscript.
+
+```typoscript
+plugin.tx_aijkogeoip {
+	settings {
+		currency {
+			default = EUR
+		}
+	}
+}
+```
+
+Optionally it is possible to define a currency whitelist. The whitelist is a comma separated list of allowed currencies. If the user is from a land with a currency that is not part of the whitelist, the default currency will be used.
+
+```typoscript
+plugin.tx_aijkogeoip {
+	settings {
+		currency {
+			whitelist = EUR, CHF, USD
+		}
+	}
+}
+```
+
 
 ### JSON & AJAX
 You can get the whole client data as JSON string, so you can do any magic with javascript in the frontend. Define the AJAX url
