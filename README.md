@@ -82,7 +82,7 @@ $continentName = $client->getContinent()->getName();
 The currency is part of the EXT:static_info_tables. The default currency is USD.
 
 ### JSON & AJAX
-You can get the whole client data as JSON string, so you can do some magic with javascript in the frontend. For example:
+You can get the whole client data as JSON string, so you can do any magic with javascript in the frontend. Define the AJAX url
 
 ```typoscript
 page {
@@ -102,6 +102,11 @@ The result is:
 ```
 
 Use this URI in your AJAX request. The result is a JSON string which includes all client information
+
+Example output
+```
+{"city":{"name":"Ratingen","mostSpecificSubdivisionName":"Ratingen","zip":"40887"},"country":{"name":"Germany","translations":{"de":"Deutschland","en":"Germany","es":"Alemania","fr":"Allemagne","ja":"ドイツ連邦共和国","pt-BR":"Alemanha","ru":"Германия","zh-CN":"德国"},"isoCode":"DE","currency":"EUR"},"continent":{"code":"EU","name":"Europe"},"latitude":51,"longitude":9,"ip":"128.101.101.101"}
+```
 
 The same as above, if you are working locally you must fake a public IP. In this case you can do it with this typoscript
 
