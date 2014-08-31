@@ -80,7 +80,7 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 			$currency = $staticCountry->getCurrencyIsoCodeA3();
 		}
 
-		$this->currency = strtolower($currency);
+		$this->currency = $currency;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	 * @param string $defaultCurrency
 	 */
 	public function setDefaultCurrency($defaultCurrency) {
-		$this->defaultCurrency = strtolower($defaultCurrency);
+		$this->defaultCurrency = $defaultCurrency;
 	}
 
 	/**
