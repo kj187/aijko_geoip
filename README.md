@@ -91,7 +91,7 @@ plugin.tx_aijkogeoip {
 }
 ```
 
-Optionally it is possible to define a currency whitelist. The whitelist is a comma separated list of allowed currencies. If the user is from a land with a currency that is not part of the whitelist, the default currency will be used.
+Optionally it is possible to define a currency whitelist. The whitelist is a comma separated list of allowed currencies. If the user is from a country with a currency that is not part of the whitelist, the default currency will be used.
 
 ```typoscript
 plugin.tx_aijkogeoip {
