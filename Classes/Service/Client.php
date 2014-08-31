@@ -28,16 +28,31 @@ namespace Aijko\AijkoGeoip\Service;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * GeoIP2 Client
+ * GeoIp Service Client
  *
  * @package Aijko\AijkoGeoip\Service
  */
-class Client extends \Aijko\AijkoGeoip\Service\AbstractService {
+class Client {
 
 	/**
-	 * @var \Aijko\AijkoGeoip\Domain\Model\City
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
-	protected $record = NULL;
+	protected $objectManager;
+
+	/**
+	 * @var \Aijko\AijkoGeoip\Domain\Repository\ClientRepository
+	 */
+	protected $clientRepository = NULL;
+
+	/**
+	 * @var \Aijko\AijkoGeoip\Domain\Model\Client
+	 */
+	protected $client = NULL;
+
+	/**
+	 * @var string
+	 */
+	protected $clientIp = '';
 
 	/**
 	 * @param string $clientIp
@@ -45,41 +60,45 @@ class Client extends \Aijko\AijkoGeoip\Service\AbstractService {
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct($clientIp = '') {
-		parent::__construct($clientIp);
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$this->clientRepository = $this->objectManager->get('Aijko\\AijkoGeoip\\Domain\\Repository\\ClientRepositoryInterface');
+		$this->setClientIp($clientIp);
 
 		try {
-			$city = $this->reader->city($this->clientIp);
+			$this->client = $this->clientRepository->findByClientIp($this->clientIp);
 		} catch (\InvalidArgumentException $exception) {
 			throw new \InvalidArgumentException($exception->getMessage(), 1409315909);
 		}
 
-		$this->record = GeneralUtility::makeInstance('Aijko\\AijkoGeoip\\Domain\\Model\\City');
-		$this->record->setClientIp($this->clientIp);
-
-		// City
-		$this->record->setCityName($city->city->name);
-		$this->record->setMostSpecificSubdivisionCityName($city->mostSpecificSubdivision->name);
-		$this->record->setZip($city->postal->code);
-		$this->record->setLatitude($city->location->latitude);
-		$this->record->setLongitude($city->location->longitude);
-
-		// Country
-		$this->record->setCountryName($city->country->name);
-		$this->record->setCountryNames($city->country->names);
-		$this->record->setIsoCode($city->country->isoCode);
-
-		// Continent
-		$this->record->setContinentCode($city->continent->code);
-		$this->record->setContinentName($city->continent->name);
-
 		return $this;
+	}
+
+	/**
+	 * @param string $clientIp
+	 * @return void
+	 * @throws \UnexpectedValueException
+	 */
+	public function setClientIp($clientIp) {
+		if ('' === $clientIp) {
+			$remoteAddress = GeneralUtility::makeInstance('Aijko\\AijkoGeoip\\Service\\RemoteAddress');
+			$clientIp = $remoteAddress->getIpAddress();
+		}
+
+		$clientIp = filter_var($clientIp, FILTER_VALIDATE_IP);
+		if ($clientIp === FALSE) {
+			throw new \UnexpectedValueException('Your ip address is not valid', 1409315903);
+		}
+
+		$this->clientIp = $clientIp;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getAsJson() {
-		return $this->record->getAsJson();
+		$jsonSerializerUtility = $this->objectManager->get('Aijko\\AijkoGeoip\\Utility\\JsonSerializerUtility');
+		$returnValue = $jsonSerializerUtility->serialize($this->client);
+		return $returnValue;
 	}
 
 }

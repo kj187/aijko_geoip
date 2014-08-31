@@ -35,39 +35,39 @@ class Continent extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	/**
 	 * @var string
 	 */
-	protected $continentCode = '';
+	protected $code = '';
 
 	/**
 	 * @var string
 	 */
-	protected $continentName = '';
+	protected $name = '';
 
 	/**
-	 * @param string $continentCode
+	 * @param string $code
 	 */
-	public function setContinentCode($continentCode) {
-		$this->continentCode = $continentCode;
+	public function setCode($code) {
+		$this->code = $code;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getContinentCode() {
-		return $this->continentCode;
+	public function getCode() {
+		return $this->code;
 	}
 
 	/**
-	 * @param string $continentName
+	 * @param string $name
 	 */
-	public function setContinentName($continentName) {
-		$this->continentName = $continentName;
+	public function setName($name) {
+		$this->name = $name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getContinentName() {
-		return $this->continentName;
+	public function getName() {
+		return $this->name;
 	}
 
 }

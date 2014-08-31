@@ -44,3 +44,18 @@
 			}
 		}
 	}
+
+
+
+################################################
+#   Extbase Settings
+#
+#
+
+	config.tx_extbase {
+		objects {
+			Aijko\AijkoGeoip\Domain\Repository\ClientRepositoryInterface {
+				className = Aijko\AijkoGeoip\Domain\Repository\ClientRepository
+			}
+		}
+	}

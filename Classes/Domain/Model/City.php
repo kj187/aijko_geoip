@@ -30,17 +30,17 @@ namespace Aijko\AijkoGeoip\Domain\Model;
  *
  * @package Aijko\AijkoGeoip\Domain\Model
  */
-class City extends \Aijko\AijkoGeoip\Domain\Model\Country {
+class City extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 
 	/**
 	 * @var string
 	 */
-	protected $cityName;
+	protected $name;
 
 	/**
 	 * @var string
 	 */
-	protected $mostSpecificSubdivisionCityName;
+	protected $mostSpecificSubdivisionName;
 
 	/**
 	 * @var string
@@ -48,49 +48,31 @@ class City extends \Aijko\AijkoGeoip\Domain\Model\Country {
 	protected $zip;
 
 	/**
-	 * @var float
+	 * @param string $mostSpecificSubdivisionName
 	 */
-	protected $latitude = 0.0;
-
-	/**
-	 * @var float
-	 */
-	protected $longitude = 0.0;
-
-	/**
-	 * @return string
-	 */
-	public function getAsJson() {
-		$returnJson = parent::getAsJson(__CLASS__);
-		return $returnJson;
-	}
-
-	/**
-	 * @param string $cityName
-	 */
-	public function setCityName($cityName) {
-		$this->cityName = $cityName;
+	public function setMostSpecificSubdivisionName($mostSpecificSubdivisionName) {
+		$this->mostSpecificSubdivisionName = $mostSpecificSubdivisionName;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getCityName() {
-		return $this->cityName;
+	public function getMostSpecificSubdivisionName() {
+		return $this->mostSpecificSubdivisionName;
 	}
 
 	/**
-	 * @param mixed $mostSpecificSubdivisionCityName
+	 * @param string $name
 	 */
-	public function setMostSpecificSubdivisionCityName($mostSpecificSubdivisionCityName) {
-		$this->mostSpecificSubdivisionCityName = $mostSpecificSubdivisionCityName;
+	public function setName($name) {
+		$this->name = $name;
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getMostSpecificSubdivisionCityName() {
-		return $this->mostSpecificSubdivisionCityName;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
@@ -105,34 +87,6 @@ class City extends \Aijko\AijkoGeoip\Domain\Model\Country {
 	 */
 	public function getZip() {
 		return $this->zip;
-	}
-
-	/**
-	 * @param float $latitude
-	 */
-	public function setLatitude($latitude) {
-		$this->latitude = $latitude;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getLatitude() {
-		return $this->latitude;
-	}
-
-	/**
-	 * @param float $longitude
-	 */
-	public function setLongitude($longitude) {
-		$this->longitude = $longitude;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getLongitude() {
-		return $this->longitude;
 	}
 
 }

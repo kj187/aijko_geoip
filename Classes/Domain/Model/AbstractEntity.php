@@ -25,48 +25,25 @@ namespace Aijko\AijkoGeoip\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
+
+/**
+ * Class AbstractEntity
+ *
+ * @package Aijko\AijkoGeoip\Domain\Model
+ */
 abstract class AbstractEntity {
 
 	/**
-	 * @var string
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
-	protected $clientIp = '';
+	protected $objectManager;
 
 	/**
-	 * @param string $clientIp
+	 * Constructor
 	 */
-	public function setClientIp($clientIp) {
-		$this->clientIp = $clientIp;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getClientIp() {
-		return $this->clientIp;
-	}
-
-	/**
-	 * @param string $class
-	 * @return string
-	 */
-	public function getAsJson($class = NULL) {
-		if (NULL === $class) {
-			return '';
-		}
-
-		$properties = get_class_vars($class);
-		$dataArray = array();
-		foreach ($properties as $name => $value) {
-			$getterMethod = 'get' . ucfirst($name);
-			if (!method_exists($this, $getterMethod)) {
-				continue;
-			}
-			$dataArray[$name] = $this->$getterMethod();
-		}
-
-		$returnJson = json_encode($dataArray);
-		return $returnJson;
+	public function __construct() {
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 	}
 
 }

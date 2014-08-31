@@ -1,5 +1,5 @@
 <?php
-namespace Aijko\AijkoGeoip\Utility;
+namespace Aijko\AijkoGeoip\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
@@ -26,52 +26,16 @@ namespace Aijko\AijkoGeoip\Utility;
  ***************************************************************/
 
 /**
- * Class CurrencyUtility
+ * Class ClientRepository
  *
- * @package Aijko\AijkoGeoip\Utility
+ * @package Aijko\AijkoGeoip\Domain\Repository
  */
-class CurrencyUtility {
+interface ClientRepositoryInterface {
 
 	/**
-	 * @var array
+	 * @param string $clientIp
+	 * @return \Aijko\AijkoGeoip\Domain\Model\Client|NULL
 	 */
-	protected static $mapping = array(
-		// ISO3166 => CurrencyCode
-
-		// EuroZone http://de.wikipedia.org/wiki/Eurozone
-		'BE' => 'EUR',
-		'DE' => 'EUR',
-		'EE' => 'EUR',
-		'FI' => 'EUR',
-		'FR' => 'EUR',
-		'GR' => 'EUR',
-		'IE' => 'EUR',
-		'IT' => 'EUR',
-		'LU' => 'EUR',
-		'LV' => 'EUR',
-		'NL' => 'EUR',
-		'MT' => 'EUR',
-		'AT' => 'EUR',
-		'PT' => 'EUR',
-		'SK' => 'EUR',
-		'SI' => 'EUR',
-		'ES' => 'EUR',
-		'CY' => 'EUR',
-
-		'CH' => 'CHF',
-		'US' => 'USD',
-	);
-
-	/**
-	 * @param string $countryCode
-	 * @return string
-	 */
-	public static function getCurrency($countryCode = 'US') {
-		if(isset(self::$mapping[$countryCode])) {
-			return self::$mapping[$countryCode];
-		}
-
-		return 'USD'; // Default to USD
-	}
+	public function findByClientIp($clientIp);
 
 }

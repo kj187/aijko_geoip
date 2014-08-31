@@ -30,17 +30,22 @@ namespace Aijko\AijkoGeoip\Domain\Model;
  *
  * @package Aijko\AijkoGeoip\Domain\Model
  */
-class Country extends \Aijko\AijkoGeoip\Domain\Model\Continent {
+class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
+
+	/**
+	 * @var \SJBR\StaticInfoTables\Domain\Repository\CountryRepository
+	 */
+	protected $countryRepository = NULL;
 
 	/**
 	 * @var string
 	 */
-	protected $countryName = '';
+	protected $name = '';
 
 	/**
 	 * @var array
 	 */
-	protected $countryNames = '';
+	protected $translations = '';
 
 	/**
 	 * @var string
@@ -53,11 +58,50 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\Continent {
 	protected $currency = '';
 
 	/**
+	 * @var string
+	 */
+	private $defaultCurrency = '';
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		parent::__construct();
+		$this->countryRepository = $this->objectManager->get('SJBR\\StaticInfoTables\\Domain\\Repository\\CountryRepository');
+	}
+
+	/**
+	 * @return string
+	 */
+	public function setCurrency() {
+		$currency = $this->getDefaultCurrency();
+		$staticCountry = $this->countryRepository->findOneByIsoCodeA2($this->getIsoCode());
+		if (NULL !== $staticCountry) {
+			$currency = $staticCountry->getCurrencyIsoCodeA3();
+		}
+
+		$this->currency = strtolower($currency);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getCurrency() {
-		$currency =  \Aijko\AijkoGeoip\Utility\CurrencyUtility::getCurrency($this->getIsoCode());
-		return strtolower($currency);
+		return $this->currency;
+	}
+
+	/**
+	 * @param string $defaultCurrency
+	 */
+	public function setDefaultCurrency($defaultCurrency) {
+		$this->defaultCurrency = strtolower($defaultCurrency);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultCurrency() {
+		return $this->defaultCurrency;
 	}
 
 	/**
@@ -75,31 +119,31 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\Continent {
 	}
 
 	/**
-	 * @param string $countryName
+	 * @param string $name
 	 */
-	public function setCountryName($countryName) {
-		$this->countryName = $countryName;
+	public function setName($name) {
+		$this->name = $name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getCountryName() {
-		return $this->countryName;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param array $countryNames
+	 * @param array $translations
 	 */
-	public function setCountryNames(array $countryNames) {
-		$this->countryNames = $countryNames;
+	public function setTranslations(array $translations) {
+		$this->translations = $translations;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getCountryNames() {
-		return $this->countryNames;
+	public function getTranslations() {
+		return $this->translations;
 	}
 
 }
