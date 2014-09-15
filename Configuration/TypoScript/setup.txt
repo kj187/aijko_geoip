@@ -4,14 +4,21 @@
 #
 
 	plugin.tx_aijkogeoip {
-		clientMetaUrl = TEXT
+		clientMetaUrl = COA
 		clientMetaUrl {
-			wrap = <script>var clientMetaDataUrl = "|?type=99874563214"</script>
-			stdWrap.typolink {
-				parameter.data = TSFE:id
-				forceAbsoluteUrl = 1
-				returnLast = url
+			wrap = <script>var clientMetaDataUrl = "|"</script>
+
+			10 = TEXT
+			10 {
+				stdWrap.typolink {
+					parameter.data = TSFE:id
+					forceAbsoluteUrl = 1
+					returnLast = url
+				}
 			}
+
+			20 = TEXT
+			20.value = ?type={$plugin.tx_aijkogeoip.settings.typeNum.ajax}
 		}
 
 		settings {
@@ -49,7 +56,7 @@
 
 	geoIpServiceClientJson = PAGE
 	geoIpServiceClientJson {
-		typeNum = 99874563214
+		typeNum = {$plugin.tx_aijkogeoip.settings.typeNum.ajax}
 
 		config {
 			no_cache = 1

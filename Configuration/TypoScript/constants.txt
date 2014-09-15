@@ -1,0 +1,12 @@
+################################################
+#   Plugin Settings
+#
+#
+
+	plugin.tx_aijkogeoip {
+		settings {
+			typeNum {
+				ajax = 99874563214
+			}
+		}
+	}
