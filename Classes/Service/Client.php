@@ -66,8 +66,10 @@ class Client {
 
 		try {
 			$this->client = $this->clientRepository->findByClientIp($this->clientIp);
-		} catch (\InvalidArgumentException $exception) {
-			throw new \InvalidArgumentException($exception->getMessage(), 1409315909);
+		} catch (\Exception $exception) {
+			$this->client = $this->objectManager->get('Aijko\\AijkoGeoip\\Domain\\Model\\Client');
+			$this->client->setCode($exception->getCode());
+			$this->client->setErrorMessage($exception->getMessage());
 		}
 
 		return $this;

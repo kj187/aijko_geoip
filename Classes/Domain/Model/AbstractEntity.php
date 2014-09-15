@@ -35,6 +35,16 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 abstract class AbstractEntity {
 
 	/**
+	 * @var int
+	 */
+	protected $code = 0;
+
+	/**
+	 * @var string
+	 */
+	protected $errorMessage = '';
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
@@ -58,6 +68,34 @@ abstract class AbstractEntity {
 		}
 
 		$this->configuration = $configuration;
+	}
+
+	/**
+	 * @param string $errorMessage
+	 */
+	public function setErrorMessage($errorMessage) {
+		$this->errorMessage = $errorMessage;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getErrorMessage() {
+		return $this->errorMessage;
+	}
+
+	/**
+	 * @param int $code
+	 */
+	public function setCode($code) {
+		$this->code = $code;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCode() {
+		return $this->code;
 	}
 
 }
