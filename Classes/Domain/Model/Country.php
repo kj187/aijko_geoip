@@ -40,6 +40,11 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	protected $countryRepository = NULL;
 
 	/**
+	 * @var \SJBR\StaticInfoTables\Domain\Model\Country
+	 */
+	protected $staticCountry = NULL;
+
+	/**
 	 * @var string
 	 */
 	protected $name = '';
@@ -60,6 +65,11 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	protected $currency = '';
 
 	/**
+	 * @var int
+	 */
+	protected $staticInfoTableUid = 0;
+
+	/**
 	 * @var string
 	 */
 	private $defaultCurrency = '';
@@ -74,12 +84,26 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function setStaticCountry() {
+		$this->staticCountry = $this->countryRepository->findOneByIsoCodeA2($this->getIsoCode());
+	}
+
+	/**
+	 * @return NULL|\SJBR\StaticInfoTables\Domain\Model\Country
+	 */
+	public function getStaticCountry() {
+		return $this->staticCountry;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function loadCurrency() {
 		$this->setCurrency($this->getDefaultCurrency());
-		$staticCountry = $this->countryRepository->findOneByIsoCodeA2($this->getIsoCode());
-		if (NULL === $staticCountry) {
+		$staticCountry = $this->getStaticCountry();
+		if (NULL === $this->getStaticCountry()) {
 			return;
 		}
 
@@ -129,6 +153,7 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	 */
 	public function setIsoCode($isoCode) {
 		$this->isoCode = $isoCode;
+		$this->setStaticCountry();
 		$this->loadCurrency();
 	}
 
@@ -165,6 +190,18 @@ class Country extends \Aijko\AijkoGeoip\Domain\Model\AbstractEntity {
 	 */
 	public function getTranslations() {
 		return $this->translations;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getStaticInfoTableUid() {
+		$staticCountry = $this->getStaticCountry();
+		if (NULL === $staticCountry) {
+			return 0;
+		}
+
+		return $staticCountry->getUid();
 	}
 
 }
