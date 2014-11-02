@@ -1,4 +1,5 @@
 # TYPO3 GeoIp Service
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/b/aijko/aijko_geoip/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/b/aijko/aijko_geoip/?branch=master)
 This TYPO3 extension based on MaxMind’s databases. But it is possible to switch to any other service.
 If you have some questions, please contact me <julian.kleinhans@aijko.com>
 
