@@ -12,13 +12,12 @@
 			10 {
 				stdWrap.typolink {
 					parameter.data = TSFE:id
+                    additionalParams = &type={$plugin.tx_aijkogeoip.settings.typeNum.ajax}
 					forceAbsoluteUrl = 1
 					returnLast = url
 				}
 			}
 
-			20 = TEXT
-			20.value = ?type={$plugin.tx_aijkogeoip.settings.typeNum.ajax}
 		}
 
 		settings {
